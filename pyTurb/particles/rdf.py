@@ -60,14 +60,19 @@ def rdf_pair_2d(params):
 def calc_rdf(ptv,xlim,ylim,rvec,cores=1):
     """
     Inputs:
-           ptv:        (N,M,4) numpy array        array of ptv data (frames, 
-    
+           ptv:        List of (N,4) numpy arrays        list of arrays of ptv data (xpos, ypos, xvel, yvel) 
+           xlim:       float                             spatial extent of FOV in x-direction
+           ylim:       float                             spatial extent of FOV in y-direction
+           rvec:       numpy array                       array of rdf bins 
+           cores:      int                               number of cores to use for parallel processing
+    Outputs:
+           results:    (N,2) numpy array                 first col is the rdf bins vector, second contains the rdf values
     
     """
 
     #if __name__ == 'calc_rdf':
-    param1 = range(0,ptv.ptv_file.nt*2,2)
-    f_tot =len(range(0,ptv.ptv_file.nt*2,2))
+    param1 = range(0,len(ptv)*2,2)
+    f_tot =len(range(0,len(ptv.ptv)*2,2))
     param2 = ptv
     param3 = rvec
     param4 = xlim
