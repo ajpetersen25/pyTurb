@@ -71,8 +71,8 @@ def calc_rdf(ptv,xlim,ylim,rvec,cores=1):
     """
 
     #if __name__ == 'calc_rdf':
-    param1 = range(0,len(ptv)*2,2)
-    f_tot =len(range(0,len(ptv.ptv)*2,2))
+    param1 = range(0,len(ptv))
+    f_tot = len(range(0,len(ptv)))
     param2 = ptv
     param3 = rvec
     param4 = xlim
