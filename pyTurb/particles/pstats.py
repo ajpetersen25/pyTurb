@@ -42,8 +42,8 @@ def rms_ptv(ptv):
                                                 column represents x position, y position, x velocity
                                                 and y velocity respectively
     Outputs:
-          rms_vels:  (2,) numpy array           first entry is the Root Mean Sqaure x velocity over
-                                                all particles while the second is that of the y velocity
+          xrms:  float                          rms velocity in the x-direction
+          yrms:  float                          rms velocity in the y-direction                                 
 
     """
     xlist = []
@@ -53,5 +53,31 @@ def rms_ptv(ptv):
       yvels = ptv[:,3]
       xlist.extend(xvels)
       ylist.extend(yvels)
-    rms_vels np.array([fs.rms(np.asarray(xvels)), fs.rms(np.asarray(yvels))])
-    return rms_vels
+    return fs.rms(np.asarray(xvels)), fs.rms(np.asarray(yvels))
+  
+  def cal_vol_frac(ptv,dp,FOV_vol):
+    """
+    Estimates the solid volume fraction of the multiphase flow by calculating the volume of
+    particles in each ptv frame, comparing to the field-of-view of the experiment and averaging
+    over all frames
+    Inputs:
+          ptv:      list of numpy arrays        Each numpy array is of size (N,4) where N is the
+                                                number of particles in that PTV snapshot and each 
+                                                column represents x position, y position, x velocity
+                                                and y velocity respectively
+          dp:       float                       expected particle diameter
+          FOV_vol:  float                       volume of the experimental domain
+    Outputs:
+          ppf:      (N,) numpy array            particles-per-frame
+          Phi_v:    float                       estimated solid-volume fraction
+    """
+                                            
+    ppf = np.zeros(len(ptv))
+    for i in range(0,len(ptv)):
+      ppf[i] = ptv[i].shape[0]
+    avg_ppf = np.mean(ppf)
+    Vp_tot = ((dp**3)*3.14159265359/6)*avg_ppf
+    Phi_v = Vp_tot/FOV_vol
+                                            
+                                            
+    
