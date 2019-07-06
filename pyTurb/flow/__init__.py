@@ -1,1 +1,1 @@
-from .flowstats import *
+__all__ = ["flowstats"]
